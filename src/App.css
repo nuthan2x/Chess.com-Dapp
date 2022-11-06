@@ -1,38 +1,55 @@
-.App {
-  text-align: center;
-}
+body{
+  font-family: monospace;
+  margin: 0;
+  color: whitesmoke;
+  background-image: url("https://images.chesscomfiles.com/uploads/v1/images_users/tiny_mce/PedroPinhata/phpm9PJli.png");
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navbar{
   display: flex;
-  flex-direction: column;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1.2rem;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin: 12.5px 5% ;
+  margin-left: 7%;
 }
 
-.App-link {
-  color: #61dafb;
+.navlinks{
+  display: flex;
+  justify-content: flex-start;
+  
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navlinks img{
+  margin-left: -3%;
+  align-items: center;
+  width: 15%;
 }
+
+.links{
+  display: flex;
+  align-items: center;
+  margin-left: 5%;
+}
+
+.activenavlink{
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  margin: auto 15px auto 25px;
+  font-size: 1.25rem;
+}
+
+.navlink{
+  text-decoration: none;
+  color: rgb(56, 109, 51);  
+  margin: auto 15px auto 25px;
+
+}
+
+.nav{
+  border-bottom: 1px solid rgb(135, 207, 95);
+}
+
