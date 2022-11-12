@@ -53,3 +53,250 @@ body{
   border-bottom: 1px solid rgb(135, 207, 95);
 }
 
+.marketdatacontainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.marketdatacontainer h1{
+  margin: 15px auto 2px;
+  font-family: monospace;
+  font-style: italic;
+}
+
+.allmatchescontainer{
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 75.0%;
+
+}
+.eachmatch{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+.matchheader{
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+}
+
+.nav{
+  top: 0;
+  position: fixed;
+  width: 100pc;
+  background-color: rgb(133, 187, 113);
+}
+
+.connectwallet{
+  margin-right: 4%;
+}
+
+
+.marketdatacontainer h1{
+  margin-top: 85px;
+}
+
+.home{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home p{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 0.9rem;
+}
+
+.infocard{
+  margin-top: 125px;
+  border: 1px solid rgb(213, 213, 240);
+  border-radius: 10px;
+  background-color: rgb(133, 187, 113);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  margin: 100px auto 15px;
+}
+
+.infocard h2{
+  color: rgb(56, 109, 51); 
+  margin: 0;
+  margin-top: 10px; 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 1.5rem;
+}
+
+.bodycards{
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.howitworks{
+  width: 60%;
+  border: 1px solid rgb(213, 213, 240);
+  border-radius: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 10px;
+  background-color: rgb(115, 160, 99);
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+  margin-right: 15px;
+
+}
+
+.howitworks h3{
+  color: rgb(51, 97, 48);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  align-self: center;
+  margin: 7px;
+}
+
+.userregistration{
+  width: 30%;
+  height: 255px;
+  border: 1px solid rgb(213, 213, 240);
+  border-radius: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 10px;
+  background-color: rgb(115, 160, 99);
+  color: rgb(51, 97, 48);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+  justify-content: center;
+
+}
+
+.userregistration h3{
+  color: rgb(51, 97, 48);
+  align-self: center;
+  font-family: Verdana, Geneva, sans-serif;
+  margin: 7px;
+  font-size: 1.1rem;
+}
+.userregistration a{
+ margin: 3px auto;
+}
+.accountaddress{
+  color: white;
+}
+.userregistration p{
+  margin: 2px 0px 10px;
+  align-self: center;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1rem;
+}
+.userregistration form{
+  margin: 5px 0px 10px;
+  padding: 5px 10px;
+  align-self: center;
+}
+.userregistration input{
+  border-radius: 5px;
+  border: 0;
+  padding: 5px;
+}
+.userregistration img{
+  width: 15px;
+  margin-bottom: 3.5px;
+  vertical-align: middle;
+}
+
+.registerbutton{
+  width: 150px;
+  align-self: center;
+  margin-top: 8.5px;
+}
+.registerbutton {
+  background: #a1e391;
+  background-image: linear-gradient(to bottom,#4d954e, #77a86a );
+  border-radius: 15px;
+  /* box-shadow: 3px 2px 6px #ffffff; */
+  font-family: Verdana, Geneva, sans-serif;
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 8.5px 20px 8.5px 20px;
+  text-decoration: none;
+  border: 1px solid whitesmoke;
+}
+
+.registerbutton:hover {
+  background: #3a8a51;
+  text-decoration: none;
+}
+
+.footer{
+  bottom: 0;
+  margin-top: auto;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid rgb(255, 255, 255);
+  background-color: rgb(115, 160, 99);
+}
+
+.footer a{
+  font-size: larger;
+  text-decoration: none;
+  font-size: 1.25rem;
+}
+
+
+.icon{
+  vertical-align: middle;
+}
+
+
+
+.myacount_component{
+  margin-top: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  
+}
+
+.creatematchcontainer{
+  width: 350px;
+  border: 1px solid greenyellow;  
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 25px;
+
+}
+
+.creatematchcontainer form{
+  margin: 5px 0px 5.0px;
+  padding: 5px 0px;
+  align-self: center;
+}
+.creatematchcontainer input{
+  border-radius: 5px;
+  border: 0;
+  padding: 5px;
+}
+.creatematchcontainer img{
+  width: 15px;
+  margin-bottom: 3.5px;
+  vertical-align: middle;
+}
+
+.creatematchcard{
+  margin-left: 35px;
+}

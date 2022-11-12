@@ -27,7 +27,7 @@ import { ethers } from 'ethers';
 
 import SharedLayout from './sharedlayout';
 import Home from './home';
-import Market from './market';
+import Market from './market.jsx';
 import Myaccount from './myaccount';
 
 const { chains, provider } = configureChains(
@@ -63,18 +63,7 @@ function App() {
       <RainbowKitProvider chains={chains} modalSize="compact" theme={{
       lightMode: lightTheme(),
       // darkMode: darkTheme(),
-    }} initialChain={chain.polygonMumbai}>
-        
-      <div className="App">
-        <header className="App-header">
-        
-
-        </header>
-        
-        <div className="App-body">
-              
-        </div>
-      </div>
+       }} initialChain={chain.polygonMumbai}>
 
 
       <BrowserRouter >

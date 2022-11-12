@@ -21,25 +21,40 @@ contract ChessMarket is Ownable{
    }
 
    mapping (address => Match[]) public matches_ofuser;
+   mapping (address => bytes) public username;
 
-
-   event Created(address indexed creater, bytes indexed creater_username, bytes  _creater_username, uint matchescreated, uint betvalue);
+   event Registered(address indexed registerer, bytes  _username);
+   event Created(address indexed creater, bytes creater_username, uint matchescreated, uint betvalue);
    event Accepted(address indexed accepter, address indexed creater, bytes indexed accepter_username, bytes creater_username, uint matchIndex);
 
-   receive() external payable {}
+   receive() external payable {
+    createMatch();
+   }
 
-   function createMatch(bytes calldata my_username) external payable{
+   function registerUsername(bytes calldata _username) external  {
+    require (_username.length > 0, "username cannot be empty");
+    username[msg.sender] = _username;
+    emit Registered(msg.sender, _username);
+   }
+
+
+   function createMatch() public  payable{
      require(msg.value > 0,"cant bet for 0 ETH");
+
+     bytes memory my_username = username[msg.sender];
+     require (my_username.length > 0, "user not registered yet");
+
      Match memory newmatch = Match(address(0), msg.value, Game.created, my_username, bytes(''));
 
      Match[] storage _matches_ofuser = matches_ofuser[msg.sender];
      _matches_ofuser.push(newmatch);
 
-     emit Created(msg.sender, my_username, my_username, _matches_ofuser.length - 1, msg.value);
+     emit Created(msg.sender, my_username, _matches_ofuser.length - 1, msg.value);
    }
 
-   function acceptInvite(address _creater, uint _indexAt, bytes calldata _creater_username, bytes calldata _accepter_username) external payable {
+   function acceptInvite(address _creater, uint _indexAt, bytes calldata _accepter_username) external payable {
      Match[] storage _matches_ofuser = matches_ofuser[_creater];
+     bytes memory _creater_username = username[_creater];
 
      require(_matches_ofuser[_indexAt].gamestatus == Game.created , "this match hasn't been created yet");
      require(keccak256(_matches_ofuser[_indexAt].creater_username) == keccak256(_creater_username), "wrong creater username");
@@ -89,7 +104,8 @@ contract ChessMarket is Ownable{
      
     if (iswon) {
         _matches_ofuser[_indexAt].gamestatus = Game.rewardWithdrawn;
-        payable(_winningAddress).transfer(_matches_ofuser[_indexAt].betvalue * 180 / 100);        // 10% fee from each user.
+        payable(_winningAddress).transfer(_matches_ofuser[_indexAt].betvalue * 180 / 100); 
+        payable(owner).transfer(_matches_ofuser[_indexAt].betvalue * 20/100);       // 10% fee from each user.
     }
    }
 
@@ -126,10 +142,10 @@ contract ChessMarket is Ownable{
     }
    }
 
-   function withdrawETH(address _target,uint _amount) external onlyOwner {
-    require(_amount > 0);
-    payable(_target).transfer(_amount);
-   }
+//    function withdrawETH(address _target,uint _amount) external onlyOwner {
+//     require(_amount > 0);
+//     payable(_target).transfer(_amount);
+//    }
 
 
 }
@@ -138,3 +154,8 @@ contract ChessMarket is Ownable{
 // final 0x7eb735624992283d8699C8CaC3e56A3AE612dEB1 v2 goerli
 
 // matic v2 0x6b70Aab27cEBDb1C5206a02094d11fE4c347c40D
+// matic v3 0xCB5B53e2DAc8C767D9A03F882A50b91EbaAEA21d
+// matic v3.01 0xd2E2F7226C5580fe789C8D5BaB3dEA025de31efd
+// matic v3.02 0x6eE88cA69d259236296CbEF50e238Cdc9960Dd3f
+
+// matic v4           -- removed withdraw eth by owner function and sending fee to owner direactly when the  winner withdraws stake
