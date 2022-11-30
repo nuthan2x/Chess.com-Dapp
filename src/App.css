@@ -271,18 +271,18 @@ body{
 }
 
 .creatematchcontainer{
-  width: 350px;
+  /* width: 350px; */
   border: 1px solid greenyellow;  
   border-radius: 15px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding: 25px;
-
+  
 }
 
 .creatematchcontainer form{
-  margin: 5px 0px 5.0px;
+  margin: 25px 0px 5.0px;
   padding: 5px 0px;
   align-self: center;
 }
@@ -299,4 +299,14 @@ body{
 
 .creatematchcard{
   margin-left: 35px;
+}
+
+.creatematchbuttons{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.creatematchbuttons .registerbutton{
+  margin-right: 30px;
 }

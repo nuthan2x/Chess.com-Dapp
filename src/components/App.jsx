@@ -88,3 +88,9 @@ function App() {
 
 export default App;
 
+
+// problems 1. dont play two matches against same player, win 1 and then withdraw it then play another, 
+// as api verification can be manipulated by a loser submitting the match live with same opponent,
+// where he won previously but latest match he lost.
+
+// add timestamp so smae player vs opponent old chess link hasnt been submitted

@@ -6,26 +6,36 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ChessMarket is Ownable{
 
-   // notcreated is default 0, 
-   // created when first user createsMatch, 
-   // accepted is when second user accepts the invite, 
-   // withdrawn changed to when winner withdraws.
-   enum Game {notcreated, created, accepted, createrCancelled, rewardWithdrawn}
+    // notcreated is default 0, 
+    // created when first user createsMatch, 
+    // accepted is when second user accepts the invite, 
+    // withdrawn changed to when winner withdraws.
+    enum Game {notcreated, created, accepted, createrCancelled, rewardWithdrawn}
 
-   struct Match {
+    struct Match {
      address against;
      uint  betvalue;
      Game gamestatus;
      bytes creater_username;     // chessdotcom usernames
      bytes accepter_username;
-   }
+    }
 
-   mapping (address => Match[]) public matches_ofuser;
-   mapping (address => bytes) public username;
+    mapping (address => Match[]) public matches_ofuser;
+    mapping (address => bytes) public username;
 
-   event Registered(address indexed registerer, bytes  _username);
-   event Created(address indexed creater, bytes creater_username, uint matchescreated, uint betvalue);
-   event Accepted(address indexed accepter, address indexed creater, bytes indexed accepter_username, bytes creater_username, uint matchIndex);
+    event Registered(address indexed registerer, bytes  _username);
+    event Created(address indexed creater, bytes creater_username, uint matchescreated, uint betvalue);
+    event Accepted(address indexed accepter, address indexed creater, uint matchIndex);
+    event CancelCreated(address indexed creater, uint matchIndex);
+    event WinnerWithdrawn(
+        address indexed creater, 
+        address indexed _winningAddress,
+        uint matchIndex, 
+        bytes _winnercolour, 
+        bytes top_username, 
+        bytes top_usercolour, 
+        bytes bottom_username
+    );
 
    receive() external payable {
     createMatch();
@@ -64,8 +74,7 @@ contract ChessMarket is Ownable{
      _matches_ofuser[_indexAt].gamestatus = Game.accepted;
      _matches_ofuser[_indexAt].accepter_username = _accepter_username;
 
-     emit Accepted(msg.sender, _creater, _accepter_username, _creater_username, _indexAt);
-
+     emit Accepted(msg.sender, _creater, _indexAt);
    }
 
    function cancel_CreatedMatch(uint _indexAt)  external {
@@ -76,6 +85,8 @@ contract ChessMarket is Ownable{
      _matches_ofuser[_indexAt].gamestatus = Game.createrCancelled;
 
      payable(msg.sender).transfer(_matches_ofuser[_indexAt].betvalue);
+     
+     emit CancelCreated(msg.sender, _indexAt);
    }
    
 
@@ -95,18 +106,21 @@ contract ChessMarket is Ownable{
 
     Match[] storage _matches_ofuser = matches_ofuser[_creater];
     require(_matches_ofuser[_indexAt].gamestatus == Game.accepted,"this match is not accepted or cancelled");
-        bytes memory _winnercolour = GenericLargeResponse(0x99E108F25672140839a637d5A41b5682294879D8).data();
-        bytes memory _username = GenericLargeResponse(0xBFcC16496fa813956b5E9143124cE40e88e037a4).data();
-        bytes memory _usercolour = GenericLargeResponse(0x513b772e1fb0c88eAeaA6B61804362AF3DA4df4C).data();
-        bytes memory _bottomuser = GenericLargeResponse(0x08Fcc05Cb59cAC8Bf3948aDF6Ec7bD4BE3E864d0).data(); 
 
-        (address _winningAddress, bool iswon) = _iswon(_matches_ofuser[_indexAt], _creater, msg.sender, _winnercolour, _username, _usercolour, _bottomuser);
-     
+    bytes memory _winnercolour = GenericLargeResponse(0x99E108F25672140839a637d5A41b5682294879D8).data();
+    bytes memory _username = GenericLargeResponse(0xBFcC16496fa813956b5E9143124cE40e88e037a4).data();
+    bytes memory _usercolour = GenericLargeResponse(0x513b772e1fb0c88eAeaA6B61804362AF3DA4df4C).data();
+    bytes memory _bottomuser = GenericLargeResponse(0x08Fcc05Cb59cAC8Bf3948aDF6Ec7bD4BE3E864d0).data(); 
+
+    (address _winningAddress, bool iswon) = _iswon(_matches_ofuser[_indexAt], _creater, msg.sender, _winnercolour, _username, _usercolour, _bottomuser);
+    
+    require(iswon, "you arent the winner");
     if (iswon) {
         _matches_ofuser[_indexAt].gamestatus = Game.rewardWithdrawn;
         payable(_winningAddress).transfer(_matches_ofuser[_indexAt].betvalue * 180 / 100); 
-        payable(owner).transfer(_matches_ofuser[_indexAt].betvalue * 20/100);       // 10% fee from each user.
+        payable (owner()).transfer(_matches_ofuser[_indexAt].betvalue * 20/100);       // 10% fee from each user.
     }
+    emit WinnerWithdrawn(_creater, _winningAddress, _indexAt, _winnercolour, _username, _usercolour, _bottomuser);
    }
 
 
@@ -142,11 +156,6 @@ contract ChessMarket is Ownable{
     }
    }
 
-//    function withdrawETH(address _target,uint _amount) external onlyOwner {
-//     require(_amount > 0);
-//     payable(_target).transfer(_amount);
-//    }
-
 
 }
 
@@ -158,4 +167,4 @@ contract ChessMarket is Ownable{
 // matic v3.01 0xd2E2F7226C5580fe789C8D5BaB3dEA025de31efd
 // matic v3.02 0x6eE88cA69d259236296CbEF50e238Cdc9960Dd3f
 
-// matic v4           -- removed withdraw eth by owner function and sending fee to owner direactly when the  winner withdraws stake
+// matic v4           -- removed withdraw eth by owner function and sending fee to owner direactly when the  winner withdraws stake, more events added/ modified
